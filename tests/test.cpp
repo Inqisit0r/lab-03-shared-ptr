@@ -23,7 +23,7 @@ TEST(ptrTest, swapPtrTest) {
   Widget widget2 = { 2, 1 };
   SharedPtr<Widget> a(&widget1);
   SharedPtr<Widget> b(&widget2);
-  a.swap(b);
+  a.swapPtr(b);
   ASSERT_EQ(a.get(), &widget2);
 }
 

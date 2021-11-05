@@ -17,26 +17,26 @@ class SharedPtr {
     this->ptr = nullptr;
     this->counter = new std::atomic_uint;
     *this->counter = 0;
-  };
+  }
 
   SharedPtr(T* pointer){
     this->counter = new std::atomic_uint;
     this->ptr = pointer;
     *this->counter = 1;
-  };
+  }
 
   SharedPtr(const SharedPtr& r){
     this->ptr = r.ptr;
     this->counter = r.counter;
     (*this->counter)++;
-  };
+  }
 
   SharedPtr(SharedPtr&& r){
     this->ptr = r.ptr;
     this->counter = r.counter;
     r.ptr = nullptr;
     delete r.counter;
-  };
+  }
 
   ~SharedPtr(){
     if ((*this->counter) < 2)
@@ -46,7 +46,7 @@ class SharedPtr {
       this->ptr = nullptr;
       (*this->counter)--;
     }
-  };
+  }
 
   auto operator=(const SharedPtr& r) -> SharedPtr&{
     if ((*this->counter) > 1)
@@ -57,7 +57,7 @@ class SharedPtr {
     this->counter = r.counter;
     (*this->counter)++;
     return *this;
-  };
+  }
 
   auto operator=(SharedPtr&& r) -> SharedPtr&{
     if ((*this->counter) > 1)
@@ -68,24 +68,23 @@ class SharedPtr {
     this->counter = r.counter;
     delete r.counter;
     return *this;
-  };
+  }
 
-  // проверяет, указывает ли указатель на объект
   operator bool() const{
     return (this->ptr != nullptr);
-  };
+  }
 
   auto operator*() const -> T&{
     return (*this->ptr);
-  };
+  }
 
   auto operator->() const -> T*{
     return this->ptr;
-  };
+  }
 
   auto get() -> T*{
     return this->ptr;
-  };
+  }
 
   void reset(){
     if (*this->counter > 1)
@@ -97,7 +96,7 @@ class SharedPtr {
     this->ptr = nullptr;
     this->counter = new std::atomic_uint;
     *this->counter = 0;
-  };
+  }
 
   void reset(T* pointer){
     if (*this->counter > 1)
@@ -109,18 +108,17 @@ class SharedPtr {
     this->ptr = pointer;
     this->counter = new std::atomic_uint;
     *this->counter = 1;
-  };
+  }
 
-  void swap(SharedPtr& r){
+  void swapPtr(SharedPtr& r){
     T* temp1 = this->ptr;
     std::atomic_uint* temp2 = this->counter;
     this->ptr = r.ptr;
     this->counter = r.counter;
     r.ptr = temp1;
     r.counter = temp2;
-  };
+  }
 
-  // возвращает количество объектов SharedPtr, которые ссылаются на тот же управляемый объект
   auto use_count() const -> size_t{
     if (this->counter == nullptr)
     {
@@ -128,7 +126,7 @@ class SharedPtr {
     } else {
       return *this->counter;
     }
-  };
+  }
 
  private:
   T* ptr;
