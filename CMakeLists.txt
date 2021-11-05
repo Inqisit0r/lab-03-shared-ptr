@@ -27,19 +27,18 @@ string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
 # new versions of cmake contain gtest search files
 # commented out to increase the build speed.
-hunter_add_package(GTest)
+ hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
 
-#add_library(${PROJECT_NAME} STATIC
-#        ${CMAKE_CURRENT_SOURCE_DIR}/sources/sharedPtr.cpp
-#        )
-add_library(${PROJECT_NAME} INTERFACE)
+add_library(${PROJECT_NAME} STATIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/sharedPtr.cpp
+        )
 
 add_executable(demo
         ${CMAKE_CURRENT_SOURCE_DIR}/demo/main.cpp
         )
 
-target_include_directories(${PROJECT_NAME} PUBLIC INTERFACE
+target_include_directories(${PROJECT_NAME} PUBLIC
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
         "$<INSTALL_INTERFACE:include>"
         )
@@ -73,6 +72,7 @@ if(BUILD_DOCS)
   find_package(Doxygen)
   doxygen_add_docs(docs include)
   install(DIRECTORY ${DOXYGEN_OUTPUT_DIRECTORY}/man DESTINATION share)
+  # add_dependencies(install docs) need to call target docs before install or package
 endif()
 
 include(CPackConfig.cmake)
