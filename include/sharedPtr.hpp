@@ -8,8 +8,6 @@
 #include <vector>
 #include <iostream>
 
-auto example() -> void;
-
 template <typename T>
 class SharedPtr {
  public:
