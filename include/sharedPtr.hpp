@@ -118,8 +118,8 @@ class SharedPtr {
     this->counter = r.counter;
     r.ptr = temp1;
     r.counter = temp2;
-  }
-  ;
+  };
+
   // возвращает количество объектов SharedPtr, которые ссылаются на тот же управляемый объект
   auto use_count() const -> size_t{
     if (this->counter == nullptr)
