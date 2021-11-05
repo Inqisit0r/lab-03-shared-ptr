@@ -10,6 +10,5 @@ int main() {
   SharedPtr<Widget> a(&widget1);
   SharedPtr<Widget> b(&widget2);
   b.swapPtr(a);
-  b.reset(&widget1);
   std::cout << a.use_count() << std::endl;
 }
