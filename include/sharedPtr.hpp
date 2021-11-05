@@ -19,7 +19,7 @@ class SharedPtr {
     *this->counter = 0;
   }
 
-  SharedPtr(T* pointer){
+  explicit SharedPtr(T* pointer){
     this->counter = new std::atomic_uint;
     this->ptr = pointer;
     *this->counter = 1;

@@ -9,6 +9,6 @@ int main() {
   Widget widget2 = { 2, 1 };
   SharedPtr<Widget> a(&widget1);
   SharedPtr<Widget> b(&widget2);
-  b.swap(a);
+  b.swapPtr(a);
   std::cout << a.use_count() << std::endl;
 }
