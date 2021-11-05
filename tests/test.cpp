@@ -51,7 +51,7 @@ TEST(ptrTest, objectPtrTest) {
 TEST(ptrTest, sharedPtrTest) {
   size_t in = 10;
   SharedPtr<size_t> a(&in);
-  const SharedPtr<size_t>& b(a);
-  const SharedPtr<size_t>& c(b);
+  SharedPtr<size_t> b(a);
+  SharedPtr<size_t> c(b);
   ASSERT_EQ(c.use_count(), 3);
 }
