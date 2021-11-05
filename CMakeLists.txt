@@ -8,16 +8,16 @@ option(BUILD_DOCS "Build documentation" OFF)
 option(BUILD_COVERAGE "Build code coverage" OFF)
 
 set(
-  HUNTER_CACHE_SERVERS
-  "https://github.com/bmstu-iu8-cpp-sem-3/hunter-cache"
-  CACHE STRING "Default cache server"
+        HUNTER_CACHE_SERVERS
+        "https://github.com/bmstu-iu8-cpp-sem-3/hunter-cache"
+        CACHE STRING "Default cache server"
 )
 
 include("cmake/HunterGate.cmake")
 
 HunterGate(
-  URL "https://github.com/cpp-pm/hunter/archive/v0.23.314.tar.gz"
-  SHA1 "95c47c92f68edb091b5d6d18924baabe02a6962a"
+        URL "https://github.com/cpp-pm/hunter/archive/v0.23.314.tar.gz"
+        SHA1 "95c47c92f68edb091b5d6d18924baabe02a6962a"
 )
 
 project(lab-03-shared-ptr)
@@ -27,29 +27,28 @@ string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
 # new versions of cmake contain gtest search files
 # commented out to increase the build speed.
- hunter_add_package(GTest)
+hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
 
 add_library(${PROJECT_NAME} STATIC
-  # enum your files and delete this comment
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/sharedPtr.cpp
         )
 
 add_executable(demo
-  ${CMAKE_CURRENT_SOURCE_DIR}/demo/main.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/demo/main.cpp
         )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-  "$<INSTALL_INTERFACE:include>"
-)
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+        "$<INSTALL_INTERFACE:include>"
+        )
 
 target_link_libraries(demo ${PROJECT_NAME})
 
 if(BUILD_TESTS)
   add_executable(tests
           ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
-  )
+          )
   target_link_libraries(tests ${PROJECT_NAME} GTest::gtest_main)
   enable_testing()
   add_test(NAME unit_tests COMMAND tests)
@@ -73,22 +72,21 @@ if(BUILD_DOCS)
   find_package(Doxygen)
   doxygen_add_docs(docs include)
   install(DIRECTORY ${DOXYGEN_OUTPUT_DIRECTORY}/man DESTINATION share)
-  # add_dependencies(install docs) need to call target docs before install or package
 endif()
 
 include(CPackConfig.cmake)
 
 install(TARGETS ${PROJECT_NAME} demo
-  EXPORT "${PROJECT_NAME}-targets"
-  RUNTIME DESTINATION bin
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  INCLUDES DESTINATION include
-)
+        EXPORT "${PROJECT_NAME}-targets"
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        INCLUDES DESTINATION include
+        )
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION include)
 
 install(EXPORT "${PROJECT_NAME}-targets"
-  NAMESPACE "${PROJECT_NAME}::"
-  DESTINATION "lib/cmake"
-)
+        NAMESPACE "${PROJECT_NAME}::"
+        DESTINATION "lib/cmake"
+        )
