@@ -32,10 +32,8 @@ class SharedPtr {
   }
 
   SharedPtr(SharedPtr&& r){
-    this->ptr = r.ptr;
-    this->counter = r.counter;
-    r.ptr = nullptr;
-    delete r.counter;
+    this->ptr = std::move(r.ptr);
+    this->counter = std::move(r.counter);
   }
 
   ~SharedPtr(){
@@ -64,9 +62,8 @@ class SharedPtr {
     {
       (*this->counter)--;
     }
-    this->ptr = r.ptr;
-    this->counter = r.counter;
-    delete r.counter;
+    this->ptr = std::move(r.ptr);
+    this->counter = std::move(r.counter);
     return *this;
   }
 
